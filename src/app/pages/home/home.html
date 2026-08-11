@@ -1,9 +1,45 @@
-<div class="flex min-h-screen items-center justify-center bg-slate-100">
-  <button
-    type="button"
-    (click)="login()"
-    class="rounded-lg bg-indigo-600 px-8 py-3 text-lg font-semibold text-white shadow-md transition hover:bg-indigo-700 active:bg-indigo-800"
-  >
-    Login
-  </button>
+<div class="min-h-screen bg-slate-100 px-6 py-10">
+  <div class="mx-auto max-w-2xl">
+    <p-card header="Authorize Request Builder" styleClass="shadow-sm">
+      <div class="flex flex-col gap-5">
+        <div class="flex flex-col gap-2">
+          <label for="scope" class="text-sm font-medium text-slate-600">scope</label>
+          <input id="scope" type="text" pInputText [(ngModel)]="scope" />
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="audience" class="text-sm font-medium text-slate-600">audience</label>
+          <input id="audience" type="text" pInputText [(ngModel)]="audience" />
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="connection" class="text-sm font-medium text-slate-600">connection</label>
+          <p-select inputId="connection" [options]="connections" [(ngModel)]="connection"></p-select>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="state" class="text-sm font-medium text-slate-600">state</label>
+          <div class="flex gap-2">
+            <input id="state" type="text" pInputText class="flex-1" [(ngModel)]="state" />
+            <p-button label="Generate" severity="secondary" (onClick)="generateState()"></p-button>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="code_challenge" class="text-sm font-medium text-slate-600">code_challenge</label>
+          <div class="flex gap-2">
+            <input id="code_challenge" type="text" pInputText class="flex-1" [(ngModel)]="codeChallenge" />
+            <p-button label="Generate" severity="secondary" (onClick)="generateCodeChallenge()"></p-button>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label class="text-sm font-medium text-slate-600">AUTHORIZE_URL</label>
+          <p class="break-all rounded-md bg-slate-900 p-3 text-xs text-green-300">{{ authorizeUrl }}</p>
+        </div>
+
+        <p-button label="Login" styleClass="mt-2 w-full" (onClick)="login()"></p-button>
+      </div>
+    </p-card>
+  </div>
 </div>
