@@ -34,7 +34,7 @@
     <div class="mb-8">
       <p-panel header="Stored Token Payload (from localStorage)" [toggleable]="true">
         @if (tokenPayload) {
-          <pre class="max-h-96 overflow-auto rounded-md bg-slate-900 p-4 text-xs text-green-300">{{ tokenPayload }}</pre>
+          <pre class="max-h-96 overflow-auto whitespace-pre-wrap break-all rounded-md bg-slate-900 p-4 text-xs text-green-300">{{ tokenPayload }}</pre>
         } @else {
           <p class="text-sm text-slate-500">
             No token payload found in localStorage. Complete the login flow from the home page first.
