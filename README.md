@@ -1,6 +1,4 @@
-# OAuth2 Demo Client
-
-A throwaway Angular client used to manually test an OAuth 2.0 authorization server running locally. Not production code — see [CLAUDE.md](CLAUDE.md) for scope and intentional shortcuts.
+# CheckPointOne Demo Client
 
 ## Tech Stack
 
