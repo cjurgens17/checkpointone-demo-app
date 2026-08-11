@@ -1,59 +1,30 @@
-# AppScaffold
+# OAuth2 Demo Client
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.3.
+A throwaway Angular client used to manually test an OAuth 2.0 authorization server running locally. Not production code — see [CLAUDE.md](CLAUDE.md) for scope and intentional shortcuts.
 
-## Development server
+## Tech Stack
 
-To start a local development server, run:
+- Angular (standalone components)
+- Tailwind CSS
+- PrimeNG (dashboard screen)
 
-```bash
-ng serve
-```
+## Running with Docker
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+The app is built and served via Docker on `localhost:4200`.
 
 ```bash
-ng generate component component-name
+docker build -t oauth2-demo-client .
+docker run -d --name oauth2-demo-client -p 4200:4200 oauth2-demo-client
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Then open `http://localhost:4200`. This assumes the OAuth authorization server is running locally at `http://localhost:5000`.
 
-```bash
-ng generate --help
-```
+## Example Flow
 
-## Building
+1. **Click Login** on the home page. This does a full-page redirect to the authorize endpoint (`http://localhost:5000/authorize?...`).
+2. **Redirected to Google** — since the authorize request specifies `connection=google-oauth2`, the auth server hands off to Google's sign-in screen.
+3. **Sign in** with a Google account. Google redirects back to the auth server, which redirects the browser to `http://localhost:4200/callback?code=...&state=...`.
+4. The **Callback** page reads the `code` from the query params and exchanges it for a token via `POST http://localhost:5000/oauth/token`. On success, the full token response is saved to `localStorage` and the app navigates to `/dashboard`.
+5. On the **Dashboard**, copy the `access_token` value out of the "Stored Token Payload" panel and paste it into [jwt.io](https://jwt.io) to inspect the decoded claims.
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+![Dashboard showing the stored token payload](docs/images/dashboard_success.png)
