@@ -5,7 +5,11 @@
         <h1 class="text-2xl font-bold text-slate-800">Dashboard</h1>
         <p class="text-sm text-slate-500">Welcome back — here's what's happening with your account.</p>
       </div>
-      <p-avatar label="U" size="large" shape="circle" styleClass="bg-indigo-600 text-white"></p-avatar>
+      <div class="flex items-center gap-4">
+        <p-avatar label="U" size="large" shape="circle" styleClass="bg-indigo-600 text-white"></p-avatar>
+        <p-button label="Back to Home" icon="pi pi-arrow-left" severity="secondary" (onClick)="backToHome()"></p-button>
+        <p-button label="Log out" icon="pi pi-sign-out" severity="secondary" (onClick)="logout()"></p-button>
+      </div>
     </header>
 
     <!-- Stat cards -->

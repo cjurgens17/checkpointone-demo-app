@@ -1,12 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { AvatarModule } from 'primeng/avatar';
 import { PanelModule } from 'primeng/panel';
+import { ButtonModule } from 'primeng/button';
 
 const TOKEN_STORAGE_KEY = 'oauth_token_response';
+
+const LOGOUT_URL = 'http://localhost:5000/logout';
+const CLIENT_ID = 'client_sdlkfj234kdjf2l34';
+const POST_LOGOUT_REDIRECT_URI = 'http://localhost:4200/logout';
 
 interface StatCard {
   label: string;
@@ -27,12 +33,14 @@ interface ActivityRow {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [DatePipe, CardModule, TableModule, TagModule, AvatarModule, PanelModule],
+  imports: [DatePipe, CardModule, TableModule, TagModule, AvatarModule, PanelModule, ButtonModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
 export class Dashboard implements OnInit {
   tokenPayload: string | null = null;
+
+  constructor(private router: Router) {}
 
   stats: StatCard[] = [
     { label: 'Active Sessions', value: '128', icon: 'pi pi-users', change: '+12%', changeType: 'up' },
@@ -64,5 +72,17 @@ export class Dashboard implements OnInit {
     if (status === 'Success') return 'success';
     if (status === 'Failed') return 'danger';
     return 'warn';
+  }
+
+  logout(): void {
+    const params = new URLSearchParams({
+      client_id: CLIENT_ID,
+      post_logout_redirect_uri: POST_LOGOUT_REDIRECT_URI
+    });
+    window.location.href = `${LOGOUT_URL}?${params.toString()}`;
+  }
+
+  backToHome(): void {
+    this.router.navigate(['/']);
   }
 }

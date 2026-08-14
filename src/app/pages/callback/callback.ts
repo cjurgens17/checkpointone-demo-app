@@ -41,7 +41,7 @@ export class Callback implements OnInit {
     const { code_verifier, returnTo } = JSON.parse(nonceRaw);
     localStorage.removeItem(state as string);
 
-    this.http.post(TOKEN_URL, { code, code_verifier, grant_type, client_id, audience, redirect_uri }).subscribe({
+    this.http.post(TOKEN_URL, { code, code_verifier, grant_type, client_id, audience, redirect_uri }, { withCredentials: true }).subscribe({
       next: (response) => {
         localStorage.setItem(TOKEN_STORAGE_KEY, JSON.stringify(response));
         this.router.navigate([returnTo ?? '/']);
