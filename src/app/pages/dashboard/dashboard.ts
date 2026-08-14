@@ -79,6 +79,19 @@ export class Dashboard implements OnInit {
       client_id: CLIENT_ID,
       post_logout_redirect_uri: POST_LOGOUT_REDIRECT_URI
     });
+
+    const raw = localStorage.getItem(TOKEN_STORAGE_KEY);
+    if (raw) {
+      try {
+        const { id_token } = JSON.parse(raw);
+        if (id_token) {
+          params.set('id_token_hint', id_token);
+        }
+      } catch {
+        // ignore malformed token response
+      }
+    }
+
     window.location.href = `${LOGOUT_URL}?${params.toString()}`;
   }
 
