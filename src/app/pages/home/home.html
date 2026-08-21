@@ -7,6 +7,17 @@
           <input id="scope" type="text" pInputText [(ngModel)]="scope" />
         </div>
 
+        <div class="flex items-center justify-between gap-2">
+          <label for="offline_access" class="text-sm font-medium text-slate-600">
+            Request refresh token (offline_access)
+          </label>
+          <p-toggleswitch
+            inputId="offline_access"
+            [(ngModel)]="offlineAccess"
+            (onChange)="onOfflineAccessToggle($event.checked)"
+          ></p-toggleswitch>
+        </div>
+
         <div class="flex flex-col gap-2">
           <label for="audience" class="text-sm font-medium text-slate-600">audience</label>
           <input id="audience" type="text" pInputText [(ngModel)]="audience" />

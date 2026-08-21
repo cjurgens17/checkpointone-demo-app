@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-slate-100 px-6 py-8">
+<div class="min-h-screen px-6 py-8 transition-colors duration-500" [style.background-color]="backgroundColor">
   <div class="mx-auto max-w-6xl">
     <header class="mb-8 flex items-center justify-between">
       <div>
@@ -38,7 +38,35 @@
     <div class="mb-8">
       <p-panel header="Stored Token Payload (from localStorage)" [toggleable]="true">
         @if (tokenPayload) {
-          <pre class="max-h-96 overflow-auto whitespace-pre-wrap break-all rounded-md bg-slate-900 p-4 text-xs text-green-300">{{ tokenPayload }}</pre>
+          <div class="flex flex-col gap-4">
+            <div>
+              <p class="mb-1 text-sm font-medium text-slate-600">ID Token</p>
+              <pre class="max-h-96 overflow-auto whitespace-pre-wrap break-all rounded-md bg-slate-900 p-4 text-xs text-green-300">{{ idToken }}</pre>
+            </div>
+            <div>
+              <p class="mb-1 text-sm font-medium text-slate-600">Access Token</p>
+              <pre class="max-h-96 overflow-auto whitespace-pre-wrap break-all rounded-md bg-slate-900 p-4 text-xs text-green-300">{{ accessToken }}</pre>
+            </div>
+            @if (refreshToken) {
+              <div>
+                <p class="mb-1 text-sm font-medium text-slate-600">Refresh Token</p>
+                <pre class="max-h-96 overflow-auto whitespace-pre-wrap break-all rounded-md bg-slate-900 p-4 text-xs text-green-300">{{ refreshToken }}</pre>
+              </div>
+            }
+          </div>
+
+          <div class="mt-4 flex flex-col items-end gap-2">
+            @if (refreshError) {
+              <p class="text-sm text-red-600">{{ refreshError }}</p>
+            }
+            <p-button
+              label="Refresh Tokens"
+              icon="pi pi-refresh"
+              severity="secondary"
+              [disabled]="!refreshToken || isRefreshing"
+              (onClick)="refreshTokens()"
+            ></p-button>
+          </div>
         } @else {
           <p class="text-sm text-slate-500">
             No token payload found in localStorage. Complete the login flow from the home page first.
@@ -74,3 +102,10 @@
     </p-card>
   </div>
 </div>
+
+@if (isRefreshing) {
+  <div class="fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 bg-slate-900/60">
+    <p-progressspinner styleClass="h-16 w-16" strokeWidth="4"></p-progressspinner>
+    <p class="text-sm font-medium text-white">Refreshing tokens…</p>
+  </div>
+}

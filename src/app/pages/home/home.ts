@@ -4,6 +4,9 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
+
+const OFFLINE_ACCESS_SCOPE = 'offline_access';
 
 const AUTHORIZE_BASE_URL = 'http://localhost:5000/authorize';
 
@@ -37,7 +40,7 @@ async function sha256Hex(value: string): Promise<string> {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [FormsModule, ButtonModule, CardModule, InputTextModule, SelectModule],
+  imports: [FormsModule, ButtonModule, CardModule, InputTextModule, SelectModule, ToggleSwitchModule],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
@@ -49,6 +52,7 @@ export class Home {
   connection = 'google-oauth2';
   state = '';
   codeChallenge = '';
+  offlineAccess = false;
 
   private codeVerifier = '';
 
@@ -67,6 +71,19 @@ export class Home {
       ['audience', this.audience]
     ];
     return `${AUTHORIZE_BASE_URL}?${params.map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&')}`;
+  }
+
+  onOfflineAccessToggle(checked: boolean): void {
+    const scopes = this.scope.split(' ').filter(Boolean);
+    const index = scopes.indexOf(OFFLINE_ACCESS_SCOPE);
+
+    if (checked && index === -1) {
+      scopes.push(OFFLINE_ACCESS_SCOPE);
+    } else if (!checked && index !== -1) {
+      scopes.splice(index, 1);
+    }
+
+    this.scope = scopes.join(' ');
   }
 
   generateState(): void {
