@@ -17,7 +17,7 @@ const STATIC_PARAMS = {
   code_challenge_method: 'S256'
 };
 
-const CONNECTIONS = ['google-oauth2', 'Username-Password-Authentication', 'facebook', 'github'];
+const CONNECTIONS = ['google-oauth2', 'Username-Password-Authentication', 'github'];
 const SCREEN_HINTS = ['login', 'signup', 'passkey'];
 
 function randomOpaqueString(length = 32): string {
