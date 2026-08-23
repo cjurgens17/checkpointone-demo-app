@@ -29,6 +29,11 @@
         </div>
 
         <div class="flex flex-col gap-2">
+          <label for="screen_hint" class="text-sm font-medium text-slate-600">screen_hint</label>
+          <p-select inputId="screen_hint" [options]="screenHints" [(ngModel)]="screenHint"></p-select>
+        </div>
+
+        <div class="flex flex-col gap-2">
           <label for="state" class="text-sm font-medium text-slate-600">state</label>
           <div class="flex gap-2">
             <input id="state" type="text" pInputText class="flex-1" [(ngModel)]="state" />

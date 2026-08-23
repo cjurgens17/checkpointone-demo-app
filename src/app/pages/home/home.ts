@@ -18,6 +18,7 @@ const STATIC_PARAMS = {
 };
 
 const CONNECTIONS = ['google-oauth2', 'Username-Password-Authentication', 'facebook', 'github'];
+const SCREEN_HINTS = ['login', 'signup', 'passkey'];
 
 function randomOpaqueString(length = 32): string {
   const bytes = new Uint8Array(length);
@@ -46,10 +47,12 @@ async function sha256Hex(value: string): Promise<string> {
 })
 export class Home {
   connections = CONNECTIONS;
+  screenHints = SCREEN_HINTS;
 
   scope = 'openid profile email';
   audience = 'https://resource-server.com';
   connection = 'google-oauth2';
+  screenHint = 'login';
   state = '';
   codeChallenge = '';
   offlineAccess = false;
@@ -68,7 +71,8 @@ export class Home {
       ['connection', this.connection],
       ['code_challenge', this.codeChallenge],
       ['code_challenge_method', STATIC_PARAMS.code_challenge_method],
-      ['audience', this.audience]
+      ['audience', this.audience],
+      ['screen_hint', this.screenHint]
     ];
     return `${AUTHORIZE_BASE_URL}?${params.map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&')}`;
   }
